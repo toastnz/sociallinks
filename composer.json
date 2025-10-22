@@ -1,0 +1,28 @@
+{
+    "name": "toastnz/sociallinks",
+    "description": "Silverstripe social links module",
+    "type": "silverstripe-vendormodule",
+    "keywords": [
+        "silverstripe",
+        "social links",
+        "module"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Emmanuel Davies",
+            "homepage": "http://toast.co.nz/",
+            "role": "Developer"
+        },
+        {
+            "name": "Priscilla Yap",
+            "homepage": "http://toast.co.nz/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "silverstripe/cms": "^5 || ^6",
+        "composer/installers": "*"
+    }
+}

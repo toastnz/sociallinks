@@ -1,0 +1,11 @@
+---
+Name: toastnz-sociallinks
+---
+
+# Toast\SocialLinks\Models\SocialLink:
+  # platforms:
+    # - PlatformName
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - Toast\SocialLinks\Extensions\SiteConfigSocialExtension
