@@ -90,7 +90,7 @@ class SiteConfigSocialExtension extends Extension
     {
         // Return the social link items in sorted order filtered by those with Link set
         return $this->owner->SocialLinkItems()
-            ->filter('Link:not', '')
+            ->filter('Link:not', null)
             ->sort('SortOrder ASC');
     }
 }
