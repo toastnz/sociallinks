@@ -37,6 +37,22 @@ This module provides a way to manage social media links in SilverStripe via Site
 - Platforms listed in the config will be protected from deletion.
 - Platforms cannot be added manually, they must be defined in the config.
 
+## Templates
+
+```ss
+<% with $SiteConfig %>
+    <% if $SocialLinks.Count %>
+        <ul class="socials">
+            <% loop $SocialLinks %>
+                <li class="socials-item">
+                    <a href="{$Link}" class="socials-item__link socials-item__link--{$Platform}" target="_blank" aria-label="Click to view our {$Title.ATT} page. (Opens in a new tab)"></a>
+                </li>
+            <% end_loop %>
+        </ul>
+    <% end_if %>
+<% end_with %>
+```
+
 ## Extending
 
 You can extend the `SocialLink` model or the `SiteConfigSocialExtension` to add more fields or customize behavior.
