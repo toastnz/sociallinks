@@ -42,7 +42,7 @@ class SocialLink extends DataObject
 
         foreach ($socialPlatforms as $platformKey) {
             // Check if a social link with the same Title already exists in the site config
-            $existingLinks = $siteConfig->SocialLinks()->filter(['Platform' => $platformKey]);
+            $existingLinks = $siteConfig->SocialLinkItems()->filter(['Platform' => $platformKey]);
 
             if ($existingLinks->count() > 0) continue;
 
@@ -57,7 +57,7 @@ class SocialLink extends DataObject
             $platform->write();
 
             // Add the colour to the site config
-            $siteConfig->SocialLinks()->add($platform->ID);
+            $siteConfig->SocialLinkItems()->add($platform->ID);
 
             // Write a message to the devlog that the colour was created successfully
             DB::alteration_message("'$platformKey' Social link created", 'created');

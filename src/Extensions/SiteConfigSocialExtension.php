@@ -18,7 +18,7 @@ use Symbiote\GridFieldExtensions\GridFieldEditableColumns;
 class SiteConfigSocialExtension extends Extension
 {
     private static $many_many = [
-        'SocialLinks' => SocialLink::class,
+        'SocialLinkItems' => SocialLink::class,
     ];
 
     public function updateCMSFields(FieldList $fields)
@@ -29,35 +29,35 @@ class SiteConfigSocialExtension extends Extension
         $databaseReady = Security::database_is_ready();
 
         // Find all the social links related to this site config
-        $socialLinks = $this->owner->SocialLinks();
+        $socialLinkItems = $this->owner->SocialLinkItems();
 
-        // Remove the existing SocialLinks field if it exists
-        $fields->removeByName(['SocialLinks']);
+        // Remove the existing SocialLinkItems field if it exists
+        $fields->removeByName(['SocialLinkItems']);
 
         // Exit here if not super admin or database not ready
         if (!$isSuperAdmin) return;
         if (!$databaseReady) return;
 
         // Exit if there are no social links
-        if (!$socialLinks) return;
+        if (!$socialLinkItems) return;
 
         // Set up the social links grid field config
-        $socialLinksConfig = GridFieldConfig::create()->addComponent(new GridFieldEditableColumns());
-        $socialLinksField = GridField::create('SocialLinks', 'Social Links', $socialLinks, $socialLinksConfig);
+        $socialLinkItemsConfig = GridFieldConfig::create()->addComponent(new GridFieldEditableColumns());
+        $socialLinkItemsField = GridField::create('SocialLinkItems', 'Social Links', $socialLinkItems, $socialLinkItemsConfig);
 
         // Allow sorting of social links
-        $socialLinksConfig->addComponent(new GridFieldOrderableRows('SortOrder'));
+        $socialLinkItemsConfig->addComponent(new GridFieldOrderableRows('SortOrder'));
 
         // Add remove button component
-        $socialLinksConfig->addComponent(new GridFieldDeleteAction());
+        $socialLinkItemsConfig->addComponent(new GridFieldDeleteAction());
 
         // Get the fields for the social links grid
-        $fieldsForSocialLinks = $this->getSocialLinkFieldsForCMS();
+        $fieldsForSocialLinkItems = $this->getSocialLinkFieldsForCMS();
 
         // Configure display fields for theme colours grid
-        $socialLinksField->getConfig()->getComponentByType(GridFieldEditableColumns::class)->setDisplayFields($fieldsForSocialLinks);
+        $socialLinkItemsField->getConfig()->getComponentByType(GridFieldEditableColumns::class)->setDisplayFields($fieldsForSocialLinkItems);
 
-        $fields->addFieldToTab('Root.SocialLinks', $socialLinksField);
+        $fields->addFieldToTab('Root.SocialLinkItems', $socialLinkItemsField);
     }
 
     public function getSocialLinkFieldsForCMS()
@@ -81,8 +81,16 @@ class SiteConfigSocialExtension extends Extension
 
     public function onAfterWrite()
     {
-        if(!$this->owner->exists()) return;
+        if (!$this->owner->exists()) return;
         $link = new SocialLink();
         $link->requireDefaultRecords();
+    }
+
+    public function getSocialLinks()
+    {
+        // Return the social link items in sorted order filtered by those with Link set
+        return $this->owner->SocialLinkItems()
+            ->filter('Link:not', '')
+            ->sort('SortOrder ASC');
     }
 }
